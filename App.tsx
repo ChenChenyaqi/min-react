@@ -1,18 +1,20 @@
 import React from "@core/React"
 
+let count = 1
 function Counter({ num }) {
-  return <div>count: <Number num={num} /></div>
-}
 
-function Number({ num }) {
-  return <span>number: {num}</span>
-}
+  const handleClick = () => {
+    console.log("click");
+  }
 
+  return <div>count: {count}
+    <button onClick={handleClick}>click</button>
+  </div>
+}
 
 function App() {
   return <div>hi-minApp
     <Counter num={10} />
-    <Counter num={20} />
   </div>
 }
 
