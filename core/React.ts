@@ -62,6 +62,20 @@ function initChildren(fiber, children) {
   })
 }
 
+function updateFunctionComponent(fiber) {
+  const children = [fiber.type(fiber.props)]
+  initChildren(fiber, children)
+}
+
+function updateHostComponent(fiber) {
+  if (!fiber.dom) {
+    fiber.dom = createDom(fiber.type)
+    updateProps(fiber.dom, fiber.props)
+  }
+  const children = fiber.props.children
+  initChildren(fiber, children)
+}
+
 let nextWorkOfUnit = null as any
 let root
 function workLoop(deadline: IdleDeadline) {
@@ -81,16 +95,12 @@ function workLoop(deadline: IdleDeadline) {
 
 function performWorkOfUnit(fiber) {
   const isFunctionComponent = typeof fiber.type === "function"
-  if (!isFunctionComponent!) {
-    if (!fiber.dom) {
-      fiber.dom = createDom(fiber.type)
-      updateProps(fiber.dom, fiber.props)
-    }
+
+  if (isFunctionComponent) {
+    updateFunctionComponent(fiber)
+  } else {
+    updateHostComponent(fiber)
   }
-  const children = isFunctionComponent
-    ? [fiber.type(fiber.props)]
-    : fiber.props.children
-  initChildren(fiber, children)
 
   // 返回下一个要执行的任务
   if (fiber.child) {
