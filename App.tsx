@@ -5,6 +5,7 @@ function Counter({ num }) {
   const handleClick = () => {
     console.log("click")
     count++
+    React.update()
   }
 
   return (
