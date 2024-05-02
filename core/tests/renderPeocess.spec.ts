@@ -109,7 +109,7 @@ describe("test reconcileChildren", () => {
         props,
       },
     ]
-    reconcileChildren(fiber, children)
+    reconcileChildren(fiber, children, [])
 
     expect(fiber.child?.type).toBe("div")
     expect(fiber.child?.sibling?.type).toBe("span")
@@ -154,14 +154,78 @@ describe("test reconcileChildren", () => {
     const children: VNode[] = [divVNode, spanVNode]
     const children2 = [divVNode2, spanVNode2]
 
-    reconcileChildren(fiber, children)
+    reconcileChildren(fiber, children, [])
 
     fiber.alternate = fiber
-    reconcileChildren(fiber, children2)
+    reconcileChildren(fiber, children2, [])
 
     expect((fiber.child?.props as any).newTag).toBeTruthy()
     expect((fiber.child?.alternate?.props as any).newTag).toBeFalsy()
     expect((fiber.child?.sibling?.props as any).newTag).toBeTruthy()
     expect((fiber.child?.sibling?.alternate?.props as any).newTag).toBeFalsy()
+  })
+
+  it("新的children为空时，可以收集要卸载旧的节点", () => {
+    const props = {
+      children: [],
+    }
+    const fiber: Fiber = {
+      type: "root",
+      props,
+    }
+    const divVNode = {
+      type: "div",
+      props,
+    }
+    const spanVNode = {
+      type: "span",
+      props,
+    }
+    reconcileChildren(fiber, [divVNode, spanVNode], [])
+
+    fiber.alternate = fiber
+    const deletions: Fiber[] = []
+    reconcileChildren(fiber, [], deletions)
+    expect(deletions.length).toEqual(2)
+    expect(deletions[0].type).toEqual("div")
+    expect(deletions[1].type).toEqual("span")
+  })
+
+  it("新的children有值时，可以收集要卸载旧的节点", () => {
+    const props = {
+      children: [],
+    }
+    const fiber: Fiber = {
+      type: "root",
+      props,
+    }
+    const divVNode = {
+      type: "div",
+      props,
+    }
+    const spanVNode = {
+      type: "span",
+      props,
+    }
+    reconcileChildren(fiber, [divVNode, spanVNode], [])
+
+    fiber.alternate = fiber
+    const deletions: Fiber[] = []
+    reconcileChildren(
+      fiber,
+      [
+        {
+          type: "div",
+          props,
+        },
+        {
+          type: "div2",
+          props,
+        },
+      ],
+      deletions
+    )
+    expect(deletions.length).toEqual(1)
+    expect(deletions[0].type).toEqual("span")
   })
 })

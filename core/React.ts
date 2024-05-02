@@ -8,11 +8,13 @@ let nextWorkOfUnit: Fiber | null = null
 let wipRoot: Fiber | null
 // 更新时需要
 let currentRoot: Fiber | null
+// 收集要删除的fiber
+const deletions: Fiber[] = []
 
 function workLoop(deadline: IdleDeadline) {
   let shouldYield = false
   while (!shouldYield && nextWorkOfUnit) {
-    nextWorkOfUnit = performWorkOfUnit(nextWorkOfUnit)
+    nextWorkOfUnit = performWorkOfUnit(nextWorkOfUnit, deletions)
 
     shouldYield = deadline.timeRemaining() < 1
   }
@@ -24,9 +26,25 @@ function workLoop(deadline: IdleDeadline) {
 }
 
 function commitRoot() {
+  deletions.forEach(commitDeletion)
   commitWork(wipRoot?.child)
   currentRoot = wipRoot
   wipRoot = null
+  deletions.splice(0)
+}
+
+function commitDeletion(fiber: Fiber) {
+  if (fiber.dom) {
+    let parentFiber = fiber.parent
+    while (!parentFiber?.dom) {
+      parentFiber = parentFiber?.parent
+    }
+    // 删除dom
+    parentFiber.dom.removeChild(fiber.dom)
+  } else {
+    // 删除函数组件
+    fiber.child && commitDeletion(fiber.child)
+  }
 }
 
 export function commitWork(fiber?: Fiber | null) {

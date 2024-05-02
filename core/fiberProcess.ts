@@ -1,13 +1,16 @@
 import { updateFunctionComponent, updateHostComponent } from "./renderProcess"
 import type { Fiber } from "./types"
 
-export function performWorkOfUnit(fiber: Fiber): Fiber | null {
+export function performWorkOfUnit(
+  fiber: Fiber,
+  deletions: Fiber[]
+): Fiber | null {
   const isFunctionComponent = typeof fiber.type === "function"
 
   if (isFunctionComponent) {
-    updateFunctionComponent(fiber)
+    updateFunctionComponent(fiber, deletions)
   } else {
-    updateHostComponent(fiber)
+    updateHostComponent(fiber, deletions)
   }
 
   // 返回下一个要执行的任务

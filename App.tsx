@@ -1,17 +1,22 @@
 import React from "@core/React"
 
-let count = 1
-function Counter({ num }) {
-  const handleClick = () => {
-    console.log("click")
-    count++
+let showBar = false
+function Counter() {
+  // const foo = <div>foo</div>
+  function Foo() {
+    return <div>foo</div>
+  }
+  const bar = <p>bar</p>
+  function handleShowBar() {
+    showBar = !showBar
     React.update()
   }
 
   return (
     <div>
-      count: {count}
-      <button onClick={handleClick}>click</button>
+      Counter
+      <div>{showBar ? bar : <Foo />}</div>
+      <button onClick={handleShowBar}>showBar</button>
     </div>
   )
 }
@@ -20,7 +25,7 @@ function App() {
   return (
     <div>
       hi-minApp
-      <Counter num={10} />
+      <Counter />
     </div>
   )
 }

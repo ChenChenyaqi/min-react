@@ -2,19 +2,19 @@ import type { Fiber, VNode } from "./types"
 import { createDom } from "./utils"
 
 // 更新函数式组件
-export function updateFunctionComponent(fiber: Fiber) {
+export function updateFunctionComponent(fiber: Fiber, deletions: Fiber[]) {
   const children = [(fiber.type as Function)(fiber.props)]
-  reconcileChildren(fiber, children)
+  reconcileChildren(fiber, children, deletions)
 }
 
 // 更新普通dom
-export function updateHostComponent(fiber: Fiber) {
+export function updateHostComponent(fiber: Fiber, deletions: Fiber[]) {
   if (!fiber.dom) {
     fiber.dom = createDom(fiber.type as string)
     updateProps(fiber.dom, fiber.props)
   }
   const children = fiber.props.children
-  reconcileChildren(fiber, children)
+  reconcileChildren(fiber, children, deletions)
 }
 
 // 更新props
@@ -59,11 +59,23 @@ export function updateProps(
 }
 
 // 更新children
-export function reconcileChildren(fiber: Fiber, children: VNode[]) {
+export function reconcileChildren(
+  fiber: Fiber,
+  children: VNode[],
+  deletions: Fiber[]
+) {
   let oldChildFiber = fiber.alternate?.child
   // 转换链表
   let preChild: Fiber | null = null
-  children?.forEach((child: any, index: number) => {
+  // 如果没有children，则全部都是卸载的
+  if (!children.length) {
+    while (oldChildFiber) {
+      deletions.push(oldChildFiber)
+      oldChildFiber = oldChildFiber.sibling
+    }
+    return
+  }
+  children.forEach((child: any, index: number) => {
     const isSameType = oldChildFiber && oldChildFiber.type === child.type
     let newFiber: Fiber
     if (isSameType) {
@@ -88,6 +100,10 @@ export function reconcileChildren(fiber: Fiber, children: VNode[]) {
         sibling: null,
         dom: null,
         effectTag: "placement",
+      }
+
+      if (oldChildFiber) {
+        deletions.push(oldChildFiber)
       }
     }
 
