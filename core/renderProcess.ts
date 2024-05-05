@@ -68,13 +68,6 @@ export function reconcileChildren(
   // 转换链表
   let preChild: Fiber | null = null
   // 如果没有children，则全部都是卸载的
-  if (!children.length) {
-    while (oldChildFiber) {
-      deletions.push(oldChildFiber)
-      oldChildFiber = oldChildFiber.sibling
-    }
-    return
-  }
   children.forEach((child: any, index: number) => {
     const isSameType = oldChildFiber && oldChildFiber.type === child.type
     let newFiber: Fiber
@@ -114,9 +107,15 @@ export function reconcileChildren(
     if (index === 0) {
       fiber.child = newFiber
     } else {
-      ;(preChild as Fiber).sibling = newFiber
+      preChild && (preChild.sibling = newFiber)
     }
 
     preChild = newFiber
   })
+
+  // 将多余的oldFiber收集起来删除
+  while (oldChildFiber) {
+    deletions.push(oldChildFiber)
+    oldChildFiber = oldChildFiber.sibling
+  }
 }
