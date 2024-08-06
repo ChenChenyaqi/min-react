@@ -2,7 +2,9 @@
   "include": [
     "./src/**/*.ts",
     "./core/**/*.ts",
+    "./core/**/*.tsx",
     "./tests/**/*.ts",
+    "./tests/**/*.tsx",
     "./*.ts",
     "App.tsx",
     "main.tsx"
