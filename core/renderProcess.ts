@@ -34,7 +34,7 @@ export function updateProps(
         const eventName = key.slice(2).toLowerCase()
         preProps && dom.removeEventListener(eventName, preProps[key])
       } else {
-        ;(dom as HTMLElement).removeAttribute(key)
+        dom[key] = undefined
       }
     }
   })
