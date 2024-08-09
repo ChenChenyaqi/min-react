@@ -2,6 +2,7 @@ import { createElementVNode as createElement } from "./utils"
 import type { Fiber, VNode } from "./types"
 import { updateProps } from "./renderProcess"
 import { performWorkOfUnit } from "./fiberProcess"
+import { commitDeletion, commitWork } from "./commit"
 
 let nextWorkOfUnit: Fiber | null = null
 // work in progress
@@ -31,39 +32,6 @@ function commitRoot() {
   currentRoot = wipRoot
   wipRoot = null
   deletions.splice(0)
-}
-
-function commitDeletion(fiber: Fiber) {
-  if (fiber.dom) {
-    let parentFiber = fiber.parent
-    while (!parentFiber?.dom) {
-      parentFiber = parentFiber?.parent
-    }
-    // 删除dom
-    parentFiber.dom.removeChild(fiber.dom)
-  } else {
-    // 删除函数组件
-    fiber.child && commitDeletion(fiber.child)
-  }
-}
-
-export function commitWork(fiber?: Fiber | null) {
-  if (!fiber) {
-    return
-  }
-  let fiberParent = fiber.parent
-  while (!fiberParent?.dom) {
-    fiberParent = fiberParent?.parent
-  }
-  if (fiber.effectTag === "update") {
-    updateProps(fiber.dom!, fiber.props, fiber.alternate?.props)
-  } else if (fiber.effectTag === "placement") {
-    if (fiber.dom) {
-      ;(fiberParent.dom as HTMLElement).append(fiber.dom)
-    }
-  }
-  commitWork(fiber.child)
-  commitWork(fiber.sibling)
 }
 
 function render(el: VNode, container: HTMLElement) {
