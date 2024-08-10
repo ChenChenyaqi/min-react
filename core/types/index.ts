@@ -16,6 +16,9 @@ interface Fiber {
   parent?: Fiber | null
   alternate?: Fiber | null
   effectTag?: "placement" | "update"
+  stateHooks?: {
+    state: any
+  }[]
 }
 
 export type { VNode, Fiber }

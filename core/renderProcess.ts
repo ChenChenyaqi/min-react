@@ -1,10 +1,13 @@
 import { setWipFiber } from "./React"
 import type { Fiber, VNode } from "./types"
+import { setStateHookIndex, setStateHooks } from "./useState"
 import { createDom } from "./utils"
 
 // 更新函数式组件
 export function updateFunctionComponent(fiber: Fiber, deletions: Fiber[]) {
   setWipFiber(fiber)
+  setStateHooks([])
+  setStateHookIndex(0)
   const children = [(fiber.type as Function)(fiber.props)]
   reconcileChildren(fiber, children, deletions)
 }

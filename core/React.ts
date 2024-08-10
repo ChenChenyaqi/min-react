@@ -7,7 +7,7 @@ let nextWorkOfUnit: Fiber | null = null
 // work in progress
 let wipRoot: Fiber | null
 // 当前处理的fiber
-let wipFiber: Fiber | null
+export let wipFiber: Fiber | null
 export const setWipFiber = (fiber: Fiber) => (wipFiber = fiber)
 // 更新时需要
 let currentRoot: Fiber | null
