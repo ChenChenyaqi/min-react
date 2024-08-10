@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`core/React/update > manual update > should update function component when called React.update 1`] = `
+<div>
+  <div>
+    1
+  </div>
+</div>
+`;

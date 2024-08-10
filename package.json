@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "vite",
+    "dev": "cross-env NODE_ENV=development vite",
     "test": "vitest"
   },
   "keywords": [],
@@ -12,6 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.12.2",
+    "cross-env": "^7.0.3",
     "jsdom": "^24.1.1",
     "typescript": "^5.4.3",
     "vite": "^5.2.7",
