@@ -15,11 +15,14 @@ export function useState(initial) {
   }
 
   oldHooks?.[stateHookIndex].queue.forEach((action) => {
-    stateHook.state = action(stateHook.state)
+    if (typeof action === "function") {
+      stateHook.state = action(stateHook.state)
+    } else {
+      stateHook.state = action
+    }
   })
 
-  stateHookIndex++
-  stateHooks.push(stateHook)
+  stateHooks[stateHookIndex++] = stateHook
   currentFiber && (currentFiber.stateHooks = stateHooks)
 
   const update = React.update()
