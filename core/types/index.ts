@@ -18,6 +18,7 @@ interface Fiber {
   effectTag?: "placement" | "update"
   stateHooks?: {
     state: any
+    queue: any[]
   }[]
 }
 
