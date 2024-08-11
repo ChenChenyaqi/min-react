@@ -9,7 +9,6 @@ export const setStateHookIndex = (val) => (stateHookIndex = val)
 export function useState(initial) {
   const currentFiber = wipFiber
   const oldHooks = currentFiber?.alternate?.stateHooks
-  console.log(oldHooks, stateHookIndex)
   const currentState = oldHooks?.[stateHookIndex]?.state || initial
   const stateHook = {
     state: currentState,
