@@ -113,4 +113,41 @@ describe("core/useEffect", () => {
     expect(cb).toBeCalledTimes(1)
     expect(cb2).toBeCalledTimes(2)
   })
+
+  it("should cleanup before update", () => {
+    const root = document.createElement("div")
+    vi.useFakeTimers()
+    const cb = vi.fn()
+    const cbCleanup = vi.fn()
+    const cb2 = vi.fn()
+    const cb2Cleanup = vi.fn()
+    let setState
+    let state
+    function Counter() {
+      const [count, setCount] = useState(1)
+      state = count
+      setState = setCount
+      useEffect(() => {
+        cb()
+        return () => {
+          cbCleanup()
+        }
+      }, [])
+      useEffect(() => {
+        cb2()
+        return () => {
+          cb2Cleanup()
+        }
+      }, [count])
+      return <div></div>
+    }
+    React.render(<Counter />, root)
+    expect(cbCleanup).toBeCalledTimes(0)
+    expect(cb2Cleanup).toBeCalledTimes(0)
+    // 更新后
+    setState(2)
+    vi.runAllTimers()
+    expect(cbCleanup).toBeCalledTimes(0)
+    expect(cb2Cleanup).toBeCalledTimes(1)
+  })
 })

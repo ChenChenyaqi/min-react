@@ -7,6 +7,7 @@ export function useEffect(cb, deps?) {
   const effectHook = {
     callback: cb,
     deps,
+    cleanup: undefined,
   }
 
   effectHooks.push(effectHook)
@@ -15,26 +16,44 @@ export function useEffect(cb, deps?) {
 }
 
 export function commitEffect(wipRoot?: Fiber) {
-  if (!wipRoot) {
-    return
-  }
-  const oldFiber = wipRoot.alternate
-  const oldEffectHooks = oldFiber?.effectHooks
-  const effectHooks = wipRoot.effectHooks
-
-  effectHooks?.forEach((effectHook, effectHookIndex) => {
-    if (!oldFiber || !effectHook.deps) {
-      effectHook?.callback?.()
-    } else {
-      const needUpdated = oldEffectHooks?.[effectHookIndex]?.deps?.some(
-        (dep, index) => {
-          return dep !== effectHook?.deps?.[index]
-        }
-      )
-      needUpdated && effectHook?.callback?.()
+  function run(fiber?: Fiber) {
+    if (!fiber) {
+      return
     }
-  })
+    const oldFiber = fiber.alternate
+    const oldEffectHooks = oldFiber?.effectHooks
+    const effectHooks = fiber.effectHooks
 
-  commitEffect(wipRoot.child!)
-  commitEffect(wipRoot.sibling!)
+    effectHooks?.forEach((effectHook, effectHookIndex) => {
+      if (!oldFiber || !effectHook.deps) {
+        effectHook.cleanup = effectHook.callback?.()
+      } else {
+        const needUpdated = oldEffectHooks?.[effectHookIndex]?.deps?.some(
+          (dep, index) => {
+            return dep !== effectHook?.deps?.[index]
+          }
+        )
+        needUpdated && (effectHook.cleanup = effectHook.callback?.())
+      }
+    })
+    run(fiber.child!)
+    run(fiber.sibling!)
+  }
+
+  function runCleanup(fiber?: Fiber) {
+    if (!fiber) {
+      return
+    }
+    fiber.alternate?.effectHooks?.forEach((effectHook, effectHookIndex) => {
+      if (effectHook.deps?.length > 0) {
+        effectHook.cleanup?.()
+      }
+    })
+
+    runCleanup(fiber.child!)
+    runCleanup(fiber.sibling!)
+  }
+
+  runCleanup(wipRoot)
+  run(wipRoot)
 }

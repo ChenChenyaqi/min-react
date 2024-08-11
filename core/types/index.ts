@@ -23,6 +23,7 @@ interface Fiber {
   effectHooks?: {
     callback: () => any
     deps: any[]
+    cleanup?: () => any
   }[]
 }
 
