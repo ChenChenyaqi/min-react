@@ -83,4 +83,34 @@ describe("core/useEffect", () => {
     expect(state).toBe(2)
     expect(cb).toBeCalledTimes(2)
   })
+
+  it("support multi useEffect", () => {
+    const root = document.createElement("div")
+    vi.useFakeTimers()
+    const cb = vi.fn()
+    const cb2 = vi.fn()
+    let setState
+    let state
+    function Counter() {
+      const [count, setCount] = useState(1)
+      state = count
+      setState = setCount
+      useEffect(() => {
+        cb()
+      }, [])
+      useEffect(() => {
+        cb2()
+      }, [count])
+      return <div></div>
+    }
+    React.render(<Counter />, root)
+    expect(cb).toBeCalledTimes(1)
+    expect(cb2).toBeCalledTimes(1)
+    // 更新后
+    setState(2)
+    vi.runAllTimers()
+    expect(state).toBe(2)
+    expect(cb).toBeCalledTimes(1)
+    expect(cb2).toBeCalledTimes(2)
+  })
 })

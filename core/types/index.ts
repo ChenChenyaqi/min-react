@@ -20,10 +20,10 @@ interface Fiber {
     state: any
     queue: any[]
   }[]
-  effectHook?: {
+  effectHooks?: {
     callback: () => any
     deps: any[]
-  }
+  }[]
 }
 
 export type { VNode, Fiber }
