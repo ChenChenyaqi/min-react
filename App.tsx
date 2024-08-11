@@ -1,4 +1,5 @@
 import React from "@core/React"
+import Todo from "./src/component/Todo"
 
 let showBar = false
 function Counter() {
@@ -35,8 +36,7 @@ function Counter() {
 function App() {
   return (
     <div>
-      hi-minApp
-      <Counter />
+      <Todo />
     </div>
   )
 }

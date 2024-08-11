@@ -26,8 +26,8 @@ export function commitWork(fiber?: Fiber | null) {
   while (!fiberParent?.dom) {
     fiberParent = fiberParent?.parent
   }
-  if (fiber.effectTag === "update") {
-    updateProps(fiber.dom!, fiber.props, fiber.alternate?.props)
+  if (fiber.effectTag === "update" && fiber.dom) {
+    updateProps(fiber.dom, fiber.props, fiber.alternate?.props)
   } else if (fiber.effectTag === "placement") {
     if (fiber.dom) {
       ;(fiberParent.dom as HTMLElement).append(fiber.dom)
