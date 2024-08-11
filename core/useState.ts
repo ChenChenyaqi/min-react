@@ -1,4 +1,5 @@
 import React, { wipFiber } from "./React"
+import { isFunction } from "lodash"
 
 let stateHooks = [] as any[]
 let stateHookIndex = 0
@@ -15,7 +16,7 @@ export function useState(initial) {
   }
 
   oldHooks?.[stateHookIndex].queue.forEach((action) => {
-    if (typeof action === "function") {
+    if (isFunction(action)) {
       stateHook.state = action(stateHook.state)
     } else {
       stateHook.state = action
@@ -28,6 +29,10 @@ export function useState(initial) {
   const update = React.update()
   let timer
   function setState(action) {
+    const eagerState = isFunction(action) ? action(stateHook.state) : action
+    if (stateHook.state === eagerState) {
+      return
+    }
     stateHook.queue.push(action)
     clearTimeout(timer)
     timer = setTimeout(() => {

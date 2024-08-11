@@ -113,4 +113,25 @@ describe("core/useState", () => {
     expect(innerCounterState).toBe(2)
     expect(counterCalled).toBeCalledTimes(1)
   })
+
+  it("should prevent update when state is not change", () => {
+    vi.useFakeTimers()
+    let innerCounterState
+    let setCounterState
+    const counterCalled = vi.fn()
+    function Counter() {
+      const [count, setCount] = useState(1)
+      innerCounterState = count
+      setCounterState = setCount
+      counterCalled()
+      return <div>{count}</div>
+    }
+    React.render(<Counter />, root)
+    counterCalled.mockClear()
+    setCounterState(1)
+    setCounterState((val) => val)
+    vi.runAllTimers()
+    expect(innerCounterState).toBe(1)
+    expect(counterCalled).toBeCalledTimes(0)
+  })
 })
