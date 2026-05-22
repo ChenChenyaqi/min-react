@@ -1,5 +1,5 @@
-import { wipFiber } from "./React"
-import { Fiber } from "./types"
+import { wipFiber } from './React'
+import { Fiber } from './types'
 
 let effectHooks = [] as any[]
 export const resetEffectHooks = () => (effectHooks = [])
@@ -28,11 +28,9 @@ export function commitEffect(wipRoot?: Fiber) {
       if (!oldFiber || !effectHook.deps) {
         effectHook.cleanup = effectHook.callback?.()
       } else {
-        const needUpdated = oldEffectHooks?.[effectHookIndex]?.deps?.some(
-          (dep, index) => {
-            return dep !== effectHook?.deps?.[index]
-          }
-        )
+        const needUpdated = oldEffectHooks?.[effectHookIndex]?.deps?.some((dep, index) => {
+          return dep !== effectHook?.deps?.[index]
+        })
         needUpdated && (effectHook.cleanup = effectHook.callback?.())
       }
     })

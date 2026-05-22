@@ -1,8 +1,8 @@
-import { setWipFiber } from "./React"
-import type { Fiber, VNode } from "./types"
-import { resetEffectHooks } from "./useEffect"
-import { setStateHookIndex, setStateHooks } from "./useState"
-import { createDom } from "./utils"
+import { setWipFiber } from './React'
+import type { Fiber, VNode } from './types'
+import { resetEffectHooks } from './useEffect'
+import { setStateHookIndex, setStateHooks } from './useState'
+import { createDom } from './utils'
 
 // 更新函数式组件
 export function updateFunctionComponent(fiber: Fiber, deletions: Fiber[]) {
@@ -28,12 +28,12 @@ export function updateHostComponent(fiber: Fiber, deletions: Fiber[]) {
 export function updateProps(
   dom: HTMLElement | Text,
   nextProps?: Record<string, any>,
-  preProps?: Record<string, any>
+  preProps?: Record<string, any>,
 ) {
   !nextProps && (nextProps = {})
   // 1.old 有 new 没有， 删除
-  Object.keys(preProps || {}).forEach((key) => {
-    if (key === "children") {
+  Object.keys(preProps || {}).forEach(key => {
+    if (key === 'children') {
       return
     }
     if (!(key in nextProps)) {
@@ -47,8 +47,8 @@ export function updateProps(
   })
   // 2.new 有 old 没有，添加
   // 3.new 有 old 有，修改
-  Object.keys(nextProps).forEach((key) => {
-    if (key === "children") {
+  Object.keys(nextProps).forEach(key => {
+    if (key === 'children') {
       return
     }
     if (nextProps[key] !== preProps?.[key]) {
@@ -66,11 +66,7 @@ export function updateProps(
 }
 
 // 更新children
-export function reconcileChildren(
-  fiber: Fiber,
-  children: VNode[],
-  deletions: Fiber[]
-) {
+export function reconcileChildren(fiber: Fiber, children: VNode[], deletions: Fiber[]) {
   let oldChildFiber = fiber.alternate?.child
   // 转换链表
   let preChild: Fiber | null = null
@@ -88,7 +84,7 @@ export function reconcileChildren(
         sibling: null,
         dom: oldChildFiber?.dom,
         alternate: oldChildFiber,
-        effectTag: "update",
+        effectTag: 'update',
       }
     } else {
       // create
@@ -99,7 +95,7 @@ export function reconcileChildren(
         child: null,
         sibling: null,
         dom: null,
-        effectTag: "placement",
+        effectTag: 'placement',
       }
 
       if (oldChildFiber) {

@@ -1,8 +1,8 @@
-import React from "@core/React"
-import { it, expect, describe, beforeEach, vi } from "vitest"
+import React from '@core/React'
+import { it, expect, describe, beforeEach, vi } from 'vitest'
 
-describe("core/React/update", () => {
-  describe("manual update", () => {
+describe('core/React/update', () => {
+  describe('manual update', () => {
     let count = 0
     const countCalled = vi.fn()
     let countUpdate
@@ -34,8 +34,8 @@ describe("core/React/update", () => {
       countCalled.mockClear()
       fooCalled.mockClear()
     })
-    it("should update function component when called React.update", () => {
-      const root = document.createElement("div")
+    it('should update function component when called React.update', () => {
+      const root = document.createElement('div')
       function App() {
         return <Counter></Counter>
       }
@@ -45,8 +45,8 @@ describe("core/React/update", () => {
       expect(root).toMatchSnapshot()
     })
 
-    it("should update specific function component when called React.update", () => {
-      const root = document.createElement("div")
+    it('should update specific function component when called React.update', () => {
+      const root = document.createElement('div')
       function App() {
         return (
           <div>

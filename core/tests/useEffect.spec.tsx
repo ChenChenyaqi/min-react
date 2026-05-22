@@ -1,10 +1,10 @@
-import React from "@core/React"
-import { useEffect } from "@core/useEffect"
-import { useState } from "@core/useState"
-import { it, expect, describe, vi } from "vitest"
-describe("core/useEffect", () => {
-  it("should run callback after mounted", () => {
-    const root = document.createElement("div")
+import React from '@core/React'
+import { useEffect } from '@core/useEffect'
+import { useState } from '@core/useState'
+import { it, expect, describe, vi } from 'vitest'
+describe('core/useEffect', () => {
+  it('should run callback after mounted', () => {
+    const root = document.createElement('div')
     const cb = vi.fn()
     function Counter() {
       useEffect(() => {
@@ -18,8 +18,8 @@ describe("core/useEffect", () => {
     expect(cb).toBeCalledTimes(1)
   })
 
-  it("should run callback when component updated without deps", () => {
-    const root = document.createElement("div")
+  it('should run callback when component updated without deps', () => {
+    const root = document.createElement('div')
     vi.useFakeTimers()
     const cb = vi.fn()
     let setState
@@ -39,8 +39,8 @@ describe("core/useEffect", () => {
     expect(cb).toBeCalledTimes(2)
   })
 
-  it("should run callback once with empty deps", () => {
-    const root = document.createElement("div")
+  it('should run callback once with empty deps', () => {
+    const root = document.createElement('div')
     vi.useFakeTimers()
     const cb = vi.fn()
     let setState
@@ -60,8 +60,8 @@ describe("core/useEffect", () => {
     expect(cb).toBeCalledTimes(1)
   })
 
-  it("should run callback again when deps state updated", () => {
-    const root = document.createElement("div")
+  it('should run callback again when deps state updated', () => {
+    const root = document.createElement('div')
     vi.useFakeTimers()
     const cb = vi.fn()
     let setState
@@ -84,8 +84,8 @@ describe("core/useEffect", () => {
     expect(cb).toBeCalledTimes(2)
   })
 
-  it("support multi useEffect", () => {
-    const root = document.createElement("div")
+  it('support multi useEffect', () => {
+    const root = document.createElement('div')
     vi.useFakeTimers()
     const cb = vi.fn()
     const cb2 = vi.fn()
@@ -114,8 +114,8 @@ describe("core/useEffect", () => {
     expect(cb2).toBeCalledTimes(2)
   })
 
-  it("should cleanup before update", () => {
-    const root = document.createElement("div")
+  it('should cleanup before update', () => {
+    const root = document.createElement('div')
     vi.useFakeTimers()
     const cb = vi.fn()
     const cbCleanup = vi.fn()

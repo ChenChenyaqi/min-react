@@ -1,8 +1,8 @@
-import { createElementVNode as createElement } from "./utils"
-import type { Fiber, VNode } from "./types"
-import { performWorkOfUnit } from "./fiberProcess"
-import { commitDeletion, commitWork } from "./commit"
-import { commitEffect } from "./useEffect"
+import { createElementVNode as createElement } from './utils'
+import type { Fiber, VNode } from './types'
+import { performWorkOfUnit } from './fiberProcess'
+import { commitDeletion, commitWork } from './commit'
+import { commitEffect } from './useEffect'
 
 let nextWorkOfUnit: Fiber | null = null
 // work in progress

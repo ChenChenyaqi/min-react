@@ -1,3 +1,3 @@
-;(window as any).requestIdleCallback = (fn) => {
+;(window as any).requestIdleCallback = fn => {
   fn({ timeRemaining: () => 2 })
 }

@@ -1,13 +1,13 @@
-import { useState } from "@core/useState"
-import React from "../../core/React"
-import { useTodo } from "./useTodo"
-import "./todo.css"
-import { useEffect } from "@core/useEffect"
+import { useState } from '@core/useState'
+import React from '../../core/React'
+import { useTodo } from './useTodo'
+import './todo.css'
+import { useEffect } from '@core/useEffect'
 
 function TodoItem({ todo, deleteTodo, unCompleteTodo, completeTodo }) {
   return (
     <li>
-      <span className={todo.done ? "done" : "undone"}>{todo.name}</span>
+      <span className={todo.done ? 'done' : 'undone'}>{todo.name}</span>
       <button onClick={() => deleteTodo(todo.id)}>remove</button>
       {todo.done ? (
         <button onClick={() => unCompleteTodo(todo.id)}>unDone</button>
@@ -19,7 +19,7 @@ function TodoItem({ todo, deleteTodo, unCompleteTodo, completeTodo }) {
 }
 
 export default function ToDo() {
-  const [inputValue, setInputValue] = useState("")
+  const [inputValue, setInputValue] = useState('')
   const {
     todoList,
     addTodo,
@@ -39,13 +39,14 @@ export default function ToDo() {
       <input
         type="text"
         value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}></input>{" "}
+        onChange={e => setInputValue(e.target.value)}
+      ></input>{' '}
       <button onClick={() => addTodo(inputValue)}>add</button>
       <div>
         <button onClick={saveTodoList}>save</button>
       </div>
       <ul>
-        {...todoList.map((todo) => {
+        {...todoList.map(todo => {
           return (
             <TodoItem
               todo={todo}

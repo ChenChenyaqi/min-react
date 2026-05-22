@@ -1,11 +1,8 @@
-import { updateFunctionComponent, updateHostComponent } from "./renderProcess"
-import type { Fiber } from "./types"
+import { updateFunctionComponent, updateHostComponent } from './renderProcess'
+import type { Fiber } from './types'
 
-export function performWorkOfUnit(
-  fiber: Fiber,
-  deletions: Fiber[]
-): Fiber | null {
-  const isFunctionComponent = typeof fiber.type === "function"
+export function performWorkOfUnit(fiber: Fiber, deletions: Fiber[]): Fiber | null {
+  const isFunctionComponent = typeof fiber.type === 'function'
 
   if (isFunctionComponent) {
     updateFunctionComponent(fiber, deletions)

@@ -1,34 +1,34 @@
-import { updateProps } from "@core/renderProcess"
-import { it, expect, describe, vi } from "vitest"
+import { updateProps } from '@core/renderProcess'
+import { it, expect, describe, vi } from 'vitest'
 
-describe("renderProcess/updateProps", () => {
-  describe("add props", () => {
-    it("should add props", () => {
-      const div = document.createElement("div")
+describe('renderProcess/updateProps', () => {
+  describe('add props', () => {
+    it('should add props', () => {
+      const div = document.createElement('div')
       const nextProps = {
-        foo: "foo",
+        foo: 'foo',
       }
       updateProps(div, nextProps)
       expect((div as any).foo).toBe(nextProps.foo)
     })
 
-    it("should add onXXX events", () => {
-      const div = document.createElement("div")
+    it('should add onXXX events', () => {
+      const div = document.createElement('div')
       const onClick = vi.fn()
       const nextProps = {
         onClick,
       }
       updateProps(div, nextProps)
-      div.dispatchEvent(new MouseEvent("click"))
+      div.dispatchEvent(new MouseEvent('click'))
       expect(onClick).toBeCalledTimes(1)
     })
   })
 
-  describe("remove props", () => {
-    it("should remove props", () => {
-      const div = document.createElement("div")
+  describe('remove props', () => {
+    it('should remove props', () => {
+      const div = document.createElement('div')
       const nextProps = {
-        foo: "foo",
+        foo: 'foo',
       }
       updateProps(div, nextProps)
       expect((div as any).foo).toBe(nextProps.foo)
@@ -37,29 +37,29 @@ describe("renderProcess/updateProps", () => {
       expect((div as any).foo).toBeUndefined()
     })
 
-    it("should remove onXXX events", () => {
-      const div = document.createElement("div")
+    it('should remove onXXX events', () => {
+      const div = document.createElement('div')
       const onClick = vi.fn()
       const nextProps = {
         onClick,
       }
       updateProps(div, nextProps)
-      div.dispatchEvent(new MouseEvent("click"))
+      div.dispatchEvent(new MouseEvent('click'))
       expect(onClick).toBeCalledTimes(1)
 
       updateProps(div, {}, nextProps)
-      div.dispatchEvent(new MouseEvent("click"))
+      div.dispatchEvent(new MouseEvent('click'))
       expect(onClick).toBeCalledTimes(1)
     })
   })
 
-  describe("update props", () => {
-    it("should update props", () => {
-      const div = document.createElement("div")
+  describe('update props', () => {
+    it('should update props', () => {
+      const div = document.createElement('div')
       const nextProps = {
-        foo: "foo",
-        bar: "bar",
-        baz: "baz",
+        foo: 'foo',
+        bar: 'bar',
+        baz: 'baz',
       }
       updateProps(div, nextProps)
       expect((div as any).foo).toBe(nextProps.foo)
@@ -67,20 +67,20 @@ describe("renderProcess/updateProps", () => {
       updateProps(
         div,
         {
-          foo: "foo1",
-          baz: "baz",
-          demi: "demi",
+          foo: 'foo1',
+          baz: 'baz',
+          demi: 'demi',
         },
-        nextProps
+        nextProps,
       )
-      expect((div as any).foo).toBe("foo1")
-      expect((div as any).baz).toBe("baz")
-      expect((div as any).demi).toBe("demi")
+      expect((div as any).foo).toBe('foo1')
+      expect((div as any).baz).toBe('baz')
+      expect((div as any).demi).toBe('demi')
       expect((div as any).bar).toBeUndefined()
     })
 
-    it("should update events", () => {
-      const div = document.createElement("div")
+    it('should update events', () => {
+      const div = document.createElement('div')
       const onMouseup = vi.fn()
       const onMousedown = vi.fn()
       const nextProps = {
@@ -88,8 +88,8 @@ describe("renderProcess/updateProps", () => {
         onMousedown,
       }
       updateProps(div, nextProps)
-      div.dispatchEvent(new MouseEvent("mouseup"))
-      div.dispatchEvent(new MouseEvent("mousedown"))
+      div.dispatchEvent(new MouseEvent('mouseup'))
+      div.dispatchEvent(new MouseEvent('mousedown'))
       expect(onMouseup).toBeCalledTimes(1)
       expect(onMousedown).toBeCalledTimes(1)
 
@@ -101,11 +101,11 @@ describe("renderProcess/updateProps", () => {
           onMouseup: onMouseup2,
           onMousemove,
         },
-        nextProps
+        nextProps,
       )
-      div.dispatchEvent(new MouseEvent("mouseup"))
-      div.dispatchEvent(new MouseEvent("mousedown"))
-      div.dispatchEvent(new MouseEvent("mousemove"))
+      div.dispatchEvent(new MouseEvent('mouseup'))
+      div.dispatchEvent(new MouseEvent('mousedown'))
+      div.dispatchEvent(new MouseEvent('mousemove'))
       expect(onMouseup2).toBeCalledTimes(1)
       expect(onMousedown).toBeCalledTimes(1)
       expect(onMousemove).toBeCalledTimes(1)

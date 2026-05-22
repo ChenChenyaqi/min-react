@@ -15,7 +15,7 @@ interface Fiber {
   sibling?: Fiber | null
   parent?: Fiber | null
   alternate?: Fiber | null
-  effectTag?: "placement" | "update"
+  effectTag?: 'placement' | 'update'
   stateHooks?: {
     state: any
     queue: any[]

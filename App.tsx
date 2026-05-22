@@ -1,5 +1,5 @@
-import React from "@core/React"
-import Todo from "./src/component/Todo"
+import React from '@core/React'
+import Todo from './src/component/Todo'
 
 let showBar = false
 function Counter() {

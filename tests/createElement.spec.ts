@@ -1,17 +1,17 @@
-import React from "@core/React"
-import { it, expect, describe } from "vitest"
+import React from '@core/React'
+import { it, expect, describe } from 'vitest'
 
-describe("createElement", () => {
-  it("props is null", () => {
-    const el = React.createElement("div", null, "hi")
+describe('createElement', () => {
+  it('props is null', () => {
+    const el = React.createElement('div', null, 'hi')
     expect(el).toEqual({
-      type: "div",
+      type: 'div',
       props: {
         children: [
           {
-            type: "TEXT_ELEMENT",
+            type: 'TEXT_ELEMENT',
             props: {
-              nodeValue: "hi",
+              nodeValue: 'hi',
               children: [],
             },
           },
@@ -20,17 +20,17 @@ describe("createElement", () => {
     })
   })
 
-  it("should return vDom", () => {
-    const el = React.createElement("div", { id: "1" }, "hi")
+  it('should return vDom', () => {
+    const el = React.createElement('div', { id: '1' }, 'hi')
     expect(el).toEqual({
-      type: "div",
+      type: 'div',
       props: {
-        id: "1",
+        id: '1',
         children: [
           {
-            type: "TEXT_ELEMENT",
+            type: 'TEXT_ELEMENT',
             props: {
-              nodeValue: "hi",
+              nodeValue: 'hi',
               children: [],
             },
           },

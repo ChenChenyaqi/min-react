@@ -1,10 +1,10 @@
-import React, { wipFiber } from "./React"
-import { isFunction } from "lodash"
+import React, { wipFiber } from './React'
+import { isFunction } from 'lodash'
 
 let stateHooks = [] as any[]
 let stateHookIndex = 0
-export const setStateHooks = (val) => (stateHooks = val)
-export const setStateHookIndex = (val) => (stateHookIndex = val)
+export const setStateHooks = val => (stateHooks = val)
+export const setStateHookIndex = val => (stateHookIndex = val)
 
 export function useState(initial) {
   const currentFiber = wipFiber
@@ -15,7 +15,7 @@ export function useState(initial) {
     queue: [] as any,
   }
 
-  oldHooks?.[stateHookIndex]?.queue.forEach((action) => {
+  oldHooks?.[stateHookIndex]?.queue.forEach(action => {
     if (isFunction(action)) {
       stateHook.state = action(stateHook.state)
     } else {

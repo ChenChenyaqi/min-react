@@ -1,4 +1,4 @@
-import { useState } from "@core/useState"
+import { useState } from '@core/useState'
 
 interface ToDoItem {
   id: string
@@ -13,7 +13,7 @@ export function useTodo() {
     if (!todoName) {
       return
     }
-    setTodoList((preTodoList) => {
+    setTodoList(preTodoList => {
       return [
         ...preTodoList,
         {
@@ -29,8 +29,8 @@ export function useTodo() {
     if (!id) {
       return
     }
-    setTodoList((preTodoList) => {
-      return preTodoList.filter((todo) => todo.id !== id)
+    setTodoList(preTodoList => {
+      return preTodoList.filter(todo => todo.id !== id)
     })
   }
 
@@ -38,8 +38,8 @@ export function useTodo() {
     if (!id) {
       return
     }
-    setTodoList((preTodoList) => {
-      return preTodoList.map((todo) => {
+    setTodoList(preTodoList => {
+      return preTodoList.map(todo => {
         if (todo.id === id) {
           return {
             ...todo,
@@ -56,8 +56,8 @@ export function useTodo() {
     if (!id) {
       return
     }
-    setTodoList((preTodoList) => {
-      return preTodoList.map((todo) => {
+    setTodoList(preTodoList => {
+      return preTodoList.map(todo => {
         if (todo.id === id) {
           return {
             ...todo,
@@ -71,7 +71,7 @@ export function useTodo() {
   }
 
   function loadTodoList() {
-    const todoStr = localStorage.getItem("todoList")
+    const todoStr = localStorage.getItem('todoList')
     if (!todoStr) {
       return
     }
@@ -81,7 +81,7 @@ export function useTodo() {
 
   function saveTodoList() {
     const todoStr = JSON.stringify(todoList)
-    localStorage.setItem("todoList", todoStr)
+    localStorage.setItem('todoList', todoStr)
   }
 
   return {

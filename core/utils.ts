@@ -1,6 +1,6 @@
 export function createTextVNode(text: string | number) {
   return {
-    type: "TEXT_ELEMENT",
+    type: 'TEXT_ELEMENT',
     props: {
       nodeValue: text,
       children: [],
@@ -17,9 +17,8 @@ export function createElementVNode(
     type,
     props: {
       ...(props ?? {}),
-      children: children.map((child) => {
-        const isTextNode =
-          typeof child === "string" || typeof child === "number"
+      children: children.map(child => {
+        const isTextNode = typeof child === 'string' || typeof child === 'number'
         return isTextNode ? createTextVNode(child) : child
       }),
     },
@@ -27,7 +26,5 @@ export function createElementVNode(
 }
 
 export function createDom(type: string) {
-  return type === "TEXT_ELEMENT"
-    ? document.createTextNode("")
-    : document.createElement(type)
+  return type === 'TEXT_ELEMENT' ? document.createTextNode('') : document.createElement(type)
 }

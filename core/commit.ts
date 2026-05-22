@@ -1,5 +1,5 @@
-import { updateProps } from "./renderProcess"
-import { Fiber } from "./types"
+import { updateProps } from './renderProcess'
+import { Fiber } from './types'
 
 export function commitDeletion(fiber: Fiber) {
   if (fiber.dom) {
@@ -26,9 +26,9 @@ export function commitWork(fiber?: Fiber | null) {
   while (!fiberParent?.dom) {
     fiberParent = fiberParent?.parent
   }
-  if (fiber.effectTag === "update" && fiber.dom) {
+  if (fiber.effectTag === 'update' && fiber.dom) {
     updateProps(fiber.dom, fiber.props, fiber.alternate?.props)
-  } else if (fiber.effectTag === "placement") {
+  } else if (fiber.effectTag === 'placement') {
     if (fiber.dom) {
       ;(fiberParent.dom as HTMLElement).append(fiber.dom)
     }
